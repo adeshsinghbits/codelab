@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutThunk } from "../features/auth/authThunk";
+import { saveUserThunk, uploadPicThunk } from "../features/user/userThunk";
+import toast from "react-hot-toast";
 import {
   FaEnvelope,
   FaMapMarkerAlt,
@@ -16,36 +20,95 @@ import SkillInput from "../components/SkillInput.jsx";
 function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: "Google User",
-    email: "adesh.singh824@gmail.com",
-    avatar: "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50",
+    name: "",
+    username: "",
+    email: "",
+    picture: "",
     about: "",
     location: "",
-    website: "",
-    github: "",
-    twitter: "",
-    linkedin: "",
+    portfolioLink: "",
+    githubLink: "",
+    twitterLink: "",
+    linkedinLink: "",
+    skillsProficientAt: [],
+    websiteLink: "",
   });
-  const [skills, setSkills] = useState(["React", "Node.js"]); // example default
+  const [skills, setSkills] = useState([]);
+  
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+  console.log(user.skills);
+  
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        name: user.name || "",
+        username: user.username || "",
+        email: user.email || "",
+        picture: user.picture || "",
+        about: user.about || "",
+        location: user.location || "",
+        portfolioLink: user.portfolioLink || "",
+        githubLink: user.githubLink || "",
+        twitterLink: user.twitterLink || "",
+        linkedinLink: user.linkedinLink || "",
+        skills: user.skills || [],
+        websiteLink: user.website || "",
+      });
+      setSkills(user.skills || []);
+    }
+  }, [user]);
+
+
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData((prev) => ({
-          ...prev,
-          avatar: reader.result,
-        }));
-      };
-      reader.readAsDataURL(file);
+      dispatch(uploadPicThunk(file)).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          setFormData((prev) => ({
+            ...prev,
+            picture: res.payload.url,
+          }));
+          toast.success("Picture uploaded successfully");
+        } else {
+          toast.error(res.error.message);
+        }
+      });
     }
+  };
+
+  const handleSave = () => {
+    const updatedData = {
+      ...formData,
+      skills: skills,
+    };
+    dispatch(saveUserThunk(updatedData)).then((res) => {
+      if (res.meta.requestStatus === "fulfilled") {
+        setIsEditing(false);
+        toast.success("User details saved successfully");
+      }  else {
+        toast.error(res.error.message);
+      }
+    });
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const Createdate = new Date(user.createdAt).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const Updatedate = new Date(user.updatedAt).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <div className="min-h-screen overflow-y-auto md:ml-0 lg:ml-80 bg-gradient-to-b from-slate-50 to-white text-gray-800">
@@ -55,7 +118,7 @@ function ProfilePage() {
           <div className="flex flex-col items-center text-center">
             <div className="relative group w-fit mx-auto">
               <img
-                src={formData.avatar || "https://via.placeholder.com/150"}
+                src={formData.picture || "https://via.placeholder.com/150"}
                 alt="Profile"
                 className="w-32 h-32 rounded-full border-4 border-purple-200 shadow-md object-cover transition duration-300"
               />
@@ -86,16 +149,32 @@ function ProfilePage() {
             ) : (
               <h1 className="text-xl font-semibold mt-2">{formData.name}</h1>
             )}
+            {isEditing ? (
+              <input
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className="text-md font-semibold text-center bg-gray-100 rounded-lg focus:outline-none mt-2"
+              />
+            ) : (
+              <p className="text-md font-semibold mt-2">username: <span className="font-semibold bg-gray-200 p-1 rounded">{formData.username || user.username}</span></p>
+            )}
             <p className="text-sm text-gray-500">{formData.email}</p>
+            <p className="text-sm my-1 text-gray-500">Joined: <span className="font-semibold bg-gray-200 p-1 rounded">{Createdate}</span></p>
+            <p className="text-sm my-1 text-gray-500">Updated: <span className="font-semibold bg-gray-200 p-1 rounded">{Updatedate}</span></p>
+
             <div className="mt-6 flex w-full gap-3">
               <button
                 className="flex-1 border-2 border-gray-300 hover:border-emerald-800 shadow-md rounded-lg py-2 text-sm flex items-center justify-center gap-2 cursor-pointer"
-                onClick={() => setIsEditing(!isEditing)}
+                onClick={isEditing ? handleSave : () => setIsEditing(true)}
               >
                 {isEditing ? <FaSave /> : <FaEdit />}
                 {isEditing ? "Save" : "Edit Profile"}
               </button>
-              <button className="flex-1 bg-gradient-to-r from-emerald-400 to-teal-800 text-white rounded-lg py-2 text-sm flex items-center justify-center gap-2">
+              <button
+                onClick={() => dispatch(logoutThunk())}
+                className="flex-1 bg-gradient-to-r from-emerald-400 to-teal-800 text-white rounded-lg py-2 text-sm flex items-center justify-center gap-2"
+              >
                 <FaSignOutAlt /> Logout
               </button>
             </div>
@@ -112,23 +191,23 @@ function ProfilePage() {
         </aside>
 
         {/* Main Content */}
-        <main className="w-full lg:w-1/2 space-y-6">
+        <main className="w-full space-y-6 lg:w-1/2">
           <SectionCard title="📄 About">
             {isEditing ? (
               <textarea
                 name="about"
                 value={formData.about}
                 onChange={handleChange}
-                className="w-full text-gray-600 bg-gray-100 p-1 focus:outline-none"
+                className=" text-gray-600 bg-gray-100 p-1 focus:outline-none"
               />
             ) : (
-              <p className="text-gray-500">
+              <p className="w-96 text-gray-500">
                 {formData.about || "No bio provided yet. Add your story!"}
               </p>
             )}
           </SectionCard>
 
-         <SectionCard title="🎯 Skills">
+          <SectionCard title="🎯 Skills">
             {isEditing ? (
               <SkillInput
                 skills={skills}
@@ -162,7 +241,7 @@ function ProfilePage() {
                     name="location"
                     value={formData.location}
                     onChange={handleChange}
-                    className="border-b-2 focus:outline-none"
+                    className="bg-gray-100 focus:outline-none"
                   />
                 ) : (
                   <span>{formData.location || "Add your Location"}</span>
@@ -172,14 +251,14 @@ function ProfilePage() {
                 <FaGlobe className="inline mr-2" />
                 {isEditing ? (
                   <input
-                    name="website"
-                    value={formData.website}
+                    name="websiteLink"
+                    value={formData.websiteLink}
                     onChange={handleChange}
-                    className="border-b-2 focus:outline-none"
+                    className="bg-gray-100 focus:outline-none"
                   />
                 ) : (
-                  <a href={formData.website} target="_blank" rel="noreferrer">
-                    {formData.website || "Add your Website"}
+                  <a href={formData.websiteLink} target="_blank" rel="noreferrer">
+                    Website Link
                   </a>
                 )}
               </li>
@@ -188,30 +267,32 @@ function ProfilePage() {
 
           <SectionCard title="📣 Social Presence">
             <ul className="space-y-2 text-gray-600">
-              {["github", "twitter", "linkedin"].map((field) => {
-                const icons = {
-                  github: <FaGithub className="inline mr-2" />,
-                  twitter: <FaTwitter className="inline mr-2" />,
-                  linkedin: <FaLinkedin className="inline mr-2" />,
-                };
-                return (
-                  <li key={field}>
-                    {icons[field]}
-                    {isEditing ? (
-                      <input
-                        name={field}
-                        value={formData[field]}
-                        onChange={handleChange}
-                        className="border-b-2 focus:outline-none"
-                      />
-                    ) : (
-                      <a href={formData[field]} target="_blank" rel="noreferrer">
-                        {formData[field] || `Connect your ${field.charAt(0).toUpperCase() + field.slice(1)}`}
-                      </a>
-                    )}
-                  </li>
-                );
-              })}
+              {[
+                { name: "githubLink", icon: <FaGithub />, label: "GitHub" },
+                { name: "twitterLink", icon: <FaTwitter />, label: "Twitter" },
+                { name: "linkedinLink", icon: <FaLinkedin />, label: "LinkedIn" },
+              ].map(({ name, icon, label }) => (
+                <li key={name} className="flex items-center">
+                  {icon}
+                  {isEditing ? (
+                    <input
+                      name={name}
+                      value={formData[name]}
+                      onChange={handleChange}
+                      className="ml-2 bg-gray-100 focus:outline-none"
+                    />
+                  ) : (
+                    <a
+                      href={formData[name]}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="ml-2"
+                    >
+                      {label}
+                    </a>
+                  )}
+                </li>
+              ))}
             </ul>
           </SectionCard>
         </main>
@@ -234,6 +315,5 @@ const SectionCard = ({ title, children }) => (
     {children}
   </div>
 );
-
 
 export default ProfilePage;

@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginWithGoogleThunk } from './authThunk';
+import { fetchAuthenticatedUser, googleLoginThunk, logoutThunk } from './authThunk';
 
 const initialState = {
-  user: localStorage.getItem('user') || null,
-  isAuthenticated: false,
+  user: null,
   loading: false,
   error: null,
 };
@@ -12,29 +11,42 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: (state) => {
-      state.user = null;
-      state.isAuthenticated = false;
-      localStorage.removeItem('user');
+    resetAuthError: (state) => {
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginWithGoogleThunk.pending, (state) => {
+      // Google Login Thunk
+      .addCase(googleLoginThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(loginWithGoogleThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload;
-        state.isAuthenticated = true;
-      })
-      .addCase(loginWithGoogleThunk.rejected, (state, action) => {
+      .addCase(googleLoginThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      // Fetch Authenticated User
+      .addCase(fetchAuthenticatedUser.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchAuthenticatedUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+      })
+      .addCase(fetchAuthenticatedUser.rejected, (state, action) => {
+        state.loading = false;
+        state.user = null;
+        state.error = action.payload;
+      })
+
+      // Logout
+      .addCase(logoutThunk.fulfilled, (state) => {
+        state.user = null;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { resetAuthError } = authSlice.actions;
 export default authSlice.reducer;

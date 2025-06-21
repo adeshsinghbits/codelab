@@ -1,18 +1,36 @@
-import React from 'react'
-import { IoMdSearch, IoMdTime } from "react-icons/io";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from 'react-router-dom';
+import { IoMdTime } from "react-icons/io";
 import { MdEventNote } from "react-icons/md";
-import { FaArrowTrendUp } from "react-icons/fa6";
-import { CiLocationOn } from "react-icons/ci";
 import { FaFilter, FaHashtag } from "react-icons/fa";
+import { CiLocationOn } from "react-icons/ci";
 import { IoPricetagOutline } from "react-icons/io5";
+
 import EventCard from '../components/EventCard';
-import Marketplace from '../assets/marketplace.png';
+import {
+  fetchEventsThunk,
+  rsvpToEventThunk,
+  leaveEventThunk
+} from '../features/event/eventThunk';
 
 function EventsPage() {
+  const dispatch = useDispatch();
+  const eventState = useSelector(state => state.event);
+  const events = eventState?.events || [];
+  const loading = eventState?.loading || false;
+  const currentUserId = useSelector(state => state.auth.user?._id);
+  useEffect(() => {
+    dispatch(fetchEventsThunk());
+  }, [dispatch]);
+
+  const handleRSVP = (id) => dispatch(rsvpToEventThunk(id));
+  const handleLeave = (id) => dispatch(leaveEventThunk(id));
+
   return (
-    <div className="w-full lg:ml-80 mt-14 ">
+    <div className="w-full lg:ml-80 mt-14">
       {/* Header */}
-      <div className="flex flex-col md:flex-row px-4  justify-between md:mt-0 bg-white border-b gap-4 p-4">
+      <div className="flex flex-col md:flex-row px-4 justify-between md:mt-0 bg-white border-b gap-4 p-4">
         <div className="flex items-center gap-4 text-2xl font-bold text-green-700">
           <MdEventNote className="text-4xl p-2 bg-green-100 rounded-full" />
           <div>
@@ -23,13 +41,12 @@ function EventsPage() {
           </div>
         </div>
         <div className="flex gap-3 items-center">
-          <button className="bg-green-700 hover:bg-green-900 text-white font-bold px-4 py-2 rounded shadow-md">
-            + Create
-          </button>
-          <button className="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded hover:bg-gray-700 hover:text-white shadow transition duration-100">
-            <FaArrowTrendUp className="text-xl" />
-            Browse Trends
-          </button>
+          <Link
+            to="/events/create"
+            className="bg-green-700 hover:bg-green-900 text-white font-bold px-4 py-2 cursor-pointer rounded shadow-md"
+          >
+            + Create Events
+          </Link>
         </div>
       </div>
 
@@ -44,7 +61,6 @@ function EventsPage() {
             </div>
 
             <div className="flex flex-col p-5 bg-green-50 space-y-6">
-              {/* Filter Dropdowns */}
               {[
                 { label: 'Event Type', icon: <MdEventNote />, id: 'category', options: ['Workshop', 'Conference', 'Bootcamp', 'Hackathon', 'Webinar', 'Other'] },
                 { label: 'Location', icon: <CiLocationOn />, id: 'location', options: ['Online', 'In Person', 'Hybrid'] },
@@ -68,7 +84,6 @@ function EventsPage() {
                 </div>
               ))}
 
-              {/* Apply Button */}
               <button className="w-full bg-green-700 hover:bg-green-800 text-white font-semibold py-3 rounded-lg shadow-md transition duration-200 flex justify-center items-center gap-2">
                 <FaFilter className="text-xl" />
                 Apply Filters
@@ -93,21 +108,38 @@ function EventsPage() {
           </div>
         </div>
 
-        {/* Right Content: Event Cards */}
+        {/* Event Cards */}
         <div className="w-full">
-          <EventCard
-            image={Marketplace}
-            date="May 31, 2025"
-            title="React Native"
-            time="10:42 – 00:42"
-            location="Online"
-            attendees="attendees / 96 max"
-            host="Anshul Sharmaa"
-            year="2025"
-            type="Workshop"
-            price="Free"
-          />
-          {/* Add more <EventCard /> components here if needed */}
+          {loading ? (
+            <p className="text-center text-gray-500">Loading events...</p>
+          ) : events.length === 0 ? (
+            <p className="text-center text-gray-400">No events found</p>
+          ) : (
+            events.map(event => {
+              const isJoined = event.attendees?.includes(currentUserId);
+
+              return (
+                <EventCard
+                  key={event._id}
+                  id={event._id}
+                  image={event.image}
+                  date={new Date(event.startDate).toDateString()}
+                  title={event.title}
+                  time={`${event.startTime} – ${event.endTime}`}
+                  location={event.location}
+                  attendees={`${event.attendees?.length || 0} / ${event.maxAttendees}`}
+                  host={event.creator?.name || "Host"}
+                  year={new Date(event.startDate).getFullYear()}
+                  type={event.category}
+                  priceCategory={event.priceCategory}
+                  price={event.price > 0 ? `₹${event.price}` : "Free"}
+                  onRSVP={() => handleRSVP(event._id)}
+                  onLeave={() => handleLeave(event._id)}
+                  isJoined={isJoined}
+                />
+              );
+            })
+          )}
         </div>
       </div>
     </div>

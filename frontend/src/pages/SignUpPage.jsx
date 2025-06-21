@@ -1,10 +1,14 @@
 import { FcGoogle } from "react-icons/fc";
-import { useDispatch, useSelector } from "react-redux";
-import { loginWithGoogleThunk } from "../features/auth/authThunk";
+import { useDispatch } from 'react-redux';
+import { googleLoginThunk } from '../features/auth/authThunk';
 
 function SignUpPage() {
+  
   const dispatch = useDispatch();
-  const { loading } = useSelector(state => state.auth);
+
+  const handleLogin = () => {
+    dispatch(googleLoginThunk());
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -13,9 +17,8 @@ function SignUpPage() {
           Create Account
         </h1>
         <button
-          onClick={() => dispatch(loginWithGoogleThunk())}
+          onClick={handleLogin}
           className="flex items-center justify-center gap-3 w-full py-3 px-4 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition"
-          disabled={loading}
         >
           <FcGoogle className="text-xl" />
           Sign up with Google

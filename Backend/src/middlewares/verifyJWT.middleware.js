@@ -3,7 +3,6 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { UnRegisteredUser } from "../models/unRegisteredUser.model.js";
 dotenv.config();
 
 const verifyJWT_email = asyncHandler(async (req, res, next) => {
@@ -20,7 +19,7 @@ const verifyJWT_email = asyncHandler(async (req, res, next) => {
 
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     // console.log("Decoded Token is : ", decodedToken);
-    const user = await UnRegisteredUser.findOne({ email: decodedToken?.email }).select(
+    const user = await User.findOne({ email: decodedToken?.email }).select(
       "-_id -__v -createdAt -updatedAt"
     );
     if (!user) {

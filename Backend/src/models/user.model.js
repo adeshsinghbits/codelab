@@ -42,6 +42,10 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
+    twitterLink: {
+      type: String,
+      default: "",
+    },
 
   },
   { timestamps: true }

@@ -6,9 +6,11 @@ import dotenv from "dotenv";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import jwt from "jsonwebtoken";
 
 dotenv.config();
 
+// ==================== Google Strategy ====================
 passport.use(
   new GoogleStrategy(
     {
@@ -22,44 +24,71 @@ passport.use(
   )
 );
 
+// ==================== OAuth Initiate ====================
 export const googleAuthHandler = passport.authenticate("google", {
   scope: ["profile", "email"],
 });
 
+// ==================== OAuth Callback ====================
 export const googleAuthCallback = passport.authenticate("google", {
   failureRedirect: "http://localhost:5173/login",
   session: false,
 });
 
+// ==================== Handle OAuth Logic ====================
 export const handleGoogleLoginCallback = asyncHandler(async (req, res) => {
   console.log("\n******** Inside handleGoogleLoginCallback function ********");
-  // console.log("User Google Info", req.user);
 
-  const existingUser = await User.findOne({ email: req.user._json.email });
+  const { email, name, picture } = req.user._json;
 
-  if (existingUser) {
-    const jwtToken = generateJWTToken_username(existingUser);
-    const expiryDate = new Date(Date.now() + 1 * 60 * 60 * 1000);
-    res.json({ existingUser });
-    res.cookie("accessToken", jwtToken, { httpOnly: true, expires: expiryDate, secure: false });
-    return res.redirect(`http://localhost:5173/discover`);
-  } else {
+  let user = await User.findOne({ email });
+
+  if (!user) {
     console.log("Creating new Unregistered User");
-    const unregisteredUser = await User.create({
-      name: req.user._json.name,
-      email: req.user._json.email,
-      picture: req.user._json.picture,
-    });
+    user = await User.create({ name, email, picture });
   }
-  const jwtToken = generateJWTToken_email(unregisteredUser);
-  const expiryDate = new Date(Date.now() + 0.5 * 60 * 60 * 1000);
-  res.json({ unregisteredUser });
-  res.cookie("accessToken", jwtToken, { httpOnly: true, expires: expiryDate, secure: false });
-  return res.redirect("http://localhost:5173/discover");
+
+  const jwtToken = user.username
+    ? generateJWTToken_username(user)
+    : generateJWTToken_email(user);
+
+  const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+  res.cookie("accessToken", jwtToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    expires: expiryDate,
+  });
+
+  return res.redirect("http://localhost:5173/dashboard");
 });
 
+// ==================== Handle Logout ====================
 export const handleLogout = (req, res) => {
   console.log("\n******** Inside handleLogout function ********");
   res.clearCookie("accessToken");
   return res.status(200).json(new ApiResponse(200, null, "User logged out successfully"));
 };
+
+// ==================== Get Authenticated User ====================
+export const getMe = asyncHandler(async (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) throw new ApiError(401, "Not logged in");
+  
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded Token is : ", decoded);
+    
+  } catch (err) {
+    throw new ApiError(403, "Invalid or expired token");
+  }
+
+  const user = await User.findById(decoded.id).select("-__v");
+  console.log(user);
+  
+  if (!user) throw new ApiError(404, "User not found");
+
+  return res.status(200).json(new ApiResponse(200, user, "User fetched"));
+});

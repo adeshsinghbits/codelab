@@ -29,8 +29,14 @@ app.use(passport.initialize());
 
 // Importing routes
 import authRouter from "./routes/auth.routes.js";
+import userRouter from "./routes/user.routes.js";
+import evenRouter from "./routes/event.routes.js";
+import courseRouter from "./routes/course.routes.js";
 
 // Using routes
 app.use("/auth", authRouter);
+app.use("/user", userRouter);
+app.use("/events", evenRouter);
+app.use("/courses", courseRouter);
 
 export { app };

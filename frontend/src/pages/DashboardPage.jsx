@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 import {
   FaUserCircle, FaCodeBranch, FaUsers, FaSearch,
-  FaPlus, FaCode, FaLaptopCode,FaBookOpen
+  FaPlus, FaCode, FaLaptopCode,FaBookOpen,FaCalendarAlt 
 } from 'react-icons/fa'
 import { MdOutlineWorkspacePremium, MdOutlineRefresh } from "react-icons/md";
 import { IoMdSearch } from 'react-icons/io'
@@ -62,13 +63,16 @@ function DashboardPage() {
     }, 1000); // spin for 1 second
   };
 
+  const { user } = useSelector((state) => state.auth);
+
+
   return (
     <div className="min-h-screen w-full md:ml-80 bg-gray-100">
       {/* Navbar */}
       <div className="flex flex-col p-4">
         <div className="flex flex-col md:flex-row justify-between text-2xl md:text-3xl font-bold my-2 mx-4 gap-4">
           <div>
-            <p>Hello Alex</p>
+            <p>Hello, @{user?.username} </p>
             <span className="block font-semibold text-lg text-gray-400">
               Here's what's happening in your workspace today
             </span>
@@ -110,12 +114,12 @@ function DashboardPage() {
             </div>
         </button>
         <button className="group bg-gradient-to-br from-purple-100 to-white px-6 py-4 rounded-2xl flex items-center gap-4 shadow-lg hover:shadow-2xl transition-all duration-300 border border-purple-300 hover:-translate-y-1 hover:scale-[1.02]">
-            <FaCode
+            <FaCalendarAlt
             size={32}
             className="text-purple-700 group-hover:rotate-[15deg] group-hover:scale-125 transition-all duration-500 ease-in-out"
             />
             <div className="flex flex-col text-left">
-            <span className="text-xl font-semibold text-gray-800 group-hover:text-purple-900 ">Create LeetCode</span>
+            <span className="text-xl font-semibold text-gray-800 group-hover:text-purple-900 ">Create Events</span>
             <span className="text-sm text-gray-600 group-hover:text-purple-800">Add a new challenge</span>
             </div>
         </button>

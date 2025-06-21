@@ -2,8 +2,10 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { CiLocationOn } from "react-icons/ci";
 import { FaUserFriends } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function EventCard({
+  id,
   image,
   date,
   title,
@@ -12,9 +14,12 @@ function EventCard({
   attendees,
   host,
   year,
-  type,
+  type, 
   price,
+  isJoined,
 }) {
+  console.log(isJoined);
+  
   return (
     <div className="max-w-xs w-full rounded-xl border border-gray-200 shadow-sm overflow-hidden bg-white">
       {/* Tags */}
@@ -60,9 +65,11 @@ function EventCard({
 
         <div className="flex justify-between items-center">
           <span className="text-green-700 font-semibold">{price}</span>
-          <button className="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded-lg font-semibold transition duration-200">
+          <Link 
+            to={`/events/${id}`}
+            className="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded-lg font-semibold cursor-pointer transition duration-200">
             View Details
-          </button>
+          </Link>
         </div>
       </div>
     </div>
