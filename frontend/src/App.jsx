@@ -16,8 +16,6 @@ import ProfilePage from './pages/ProfilePage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { Toaster } from 'react-hot-toast';
 import EventDetailsPage from './pages/EventDetailsPage.jsx';
-import CreateCoursePage from './pages/CreateCoursePage.jsx';
-import EditCoursePage from './pages/EditCoursePage.jsx';
 
 function App() {
   
@@ -35,8 +33,6 @@ function App() {
             <Route path="/editor" element={<CodeEditorPage />} />
             <Route path="/marketplace" element={<MarketplacePage />} />
             <Route path="/courses" element={<CoursePage />} />
-            <Route path="/courses/create" element={<CreateCoursePage />} />
-            <Route path="/courses/:courseId/edit" element={<EditCoursePage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/events/create" element={<CreateEventPage />} />
             <Route path="/events/:eventId" element={<EventDetailsPage />} />

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaCalendarAlt, FaUserFriends } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
-import { CiLocationOn } from "react-icons/ci";
+import { CiLocationOn, CiBookmark, CiBookmarkCheck  } from "react-icons/ci";
 import { IoArrowBackSharp, IoShareSocialOutline } from "react-icons/io5";
 import toast from "react-hot-toast";
 import dayjs from "dayjs";
@@ -98,12 +98,17 @@ function EventDetailsPage() {
           <div className="border rounded-lg p-6 bg-white shadow-sm space-y-4">
             <div className="flex justify-between items-start">
               <h1 className="text-3xl font-bold capitalize">{event.title}</h1>
-              <button
-                onClick={handleShare}
-                className="border border-green-500 text-green-600 hover:bg-green-50 p-2 rounded-md"
-              >
-                <IoShareSocialOutline />
-              </button>
+              <div>
+                <button
+                  onClick={handleShare}
+                  className="border border-green-500 mr-2 text-green-600 hover:bg-green-50 p-2 rounded-md"
+                >
+                  <IoShareSocialOutline />
+                </button>
+                <button className="border border-green-500 text-green-600 hover:bg-green-50 p-2 rounded-md">
+                  <CiBookmark />
+                </button>
+              </div>
             </div>
 
             <div className="text-sm text-gray-500 space-y-2">
