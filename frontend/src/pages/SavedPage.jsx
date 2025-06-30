@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from  "react-router-dom"
 import { IoMdSearch } from 'react-icons/io';
-import { FaBookOpen } from "react-icons/fa";
-import { MdEventNote } from "react-icons/md";
+import { FaCodeBranch, FaBookOpen } from "react-icons/fa";
 import { RiDraftLine } from "react-icons/ri";
 
 function SavedPage() {
@@ -12,16 +10,11 @@ function SavedPage() {
   const renderPlaceholderContent = () => {
     switch (activeTab) {
       case 'all':
-        return <div>
-                <p className="text-gray-500 text-xl">You haven’t saved any drafts yet.</p>
-              </div>;
+        return <p className="text-gray-500 text-xl">You haven’t saved any drafts yet.</p>;
       case 'courses':
-        return <div>
-                <p className="text-gray-500 text-xl">No saved courses available.</p>
-                <Link to="/events/create">+ Create Course</Link>
-              </div>
-      case 'events':
-        return <p className="text-gray-500 text-xl">No saved Events problems found.</p>;
+        return <p className="text-gray-500 text-xl">No saved courses available.</p>;
+      case 'leetcode':
+        return <p className="text-gray-500 text-xl">No saved LeetCode problems found.</p>;
       default:
         return null;
     }
@@ -61,15 +54,15 @@ function SavedPage() {
             Courses
           </button>
           <button
-            onClick={() => setActiveTab('events')}
+            onClick={() => setActiveTab('leetcode')}
             className={`py-2 px-4 rounded transition duration-300 shadow-md flex items-center gap-2 ${
-              activeTab === 'events'
+              activeTab === 'leetcode'
                 ? 'bg-green-700 text-white shadow-green-700'
                 : 'hover:bg-white hover:text-gray-600'
             }`}
           >
-            <MdEventNote className="w-5 h-5" />
-            Events
+            <FaCodeBranch className="w-5 h-5" />
+            LeetCode
           </button>
         </div>
 

@@ -109,7 +109,7 @@ function EventsPage() {
         </div>
 
         {/* Event Cards */}
-        <div className="w-full">
+        <div className="w-full flex gap-4 flex-wrap">
           {loading ? (
             <p className="text-center text-gray-500">Loading events...</p>
           ) : events.length === 0 ? (

@@ -1,4 +1,5 @@
 import { Event } from "../models/event.model.js";
+import { Notification } from "../models/notification.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
@@ -119,6 +120,14 @@ export const rsvpEvent = asyncHandler(async (req, res) => {
   event.attendees.push(userId);
   await event.save();
 
+  // ✅ Create notification after successful RSVP
+  await Notification.create({
+    userId,
+    eventId,
+    message: `You've successfully joined the event "${event.title}"`,
+    type: "join"
+  });
+
   const updatedEvent = await Event.findById(eventId)
     .populate("attendees", "name username picture")
     .populate("creator", "name username picture");
@@ -153,8 +162,9 @@ export const leaveEvent = asyncHandler(async (req, res) => {
 
 // GET CREATOR'S EVENTS
 export const getCreatorEvents = asyncHandler(async (req, res) => {
-  const events = await Event.find({ creator: req.user._id });
-  res.status(200).json(new ApiResponse(200, events, "Creator's events fetched"));
+  const { creatorId } = req.params;
+  const events = await Event.find({ creator: creatorId });
+  res.status(200).json(new ApiResponse(200, events, "Creator's events fetched successfully"));
 });
 
 // GET SINGLE EVENT

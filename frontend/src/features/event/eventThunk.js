@@ -77,3 +77,17 @@ export const getSingleEventThunk = createAsyncThunk(
     }
   }
 );
+
+export const creatorEventsThunk = createAsyncThunk(
+  "event/creatorEvents",
+  async (creatorId, { rejectWithValue }) => {
+    try {
+      const { data } = await axiosInstance.get(`/events/creator/${creatorId}`);
+      return data.data;
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || "Failed to fetch creator's events");
+      return rejectWithValue(error.response?.data?.message || "Failed to fetch creator's events");
+    }
+  }
+);

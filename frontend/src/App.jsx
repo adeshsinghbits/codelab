@@ -16,9 +16,12 @@ import ProfilePage from './pages/ProfilePage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { Toaster } from 'react-hot-toast';
 import EventDetailsPage from './pages/EventDetailsPage.jsx';
+import CreateGigPage from './pages/CreateGigPage.jsx';
+import GigDetails from './pages/GigDetailsPage.jsx';
+import OrdersPage from './pages/OrdersPage.jsx';
+import ChatPage from './pages/ChatPage.jsx';
 
 function App() {
-  
   return (
     <BrowserRouter>
       <Toaster position="top-right" reverseOrder={false} />
@@ -32,6 +35,9 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/editor" element={<CodeEditorPage />} />
             <Route path="/marketplace" element={<MarketplacePage />} />
+            <Route path="/marketplace/create" element={<CreateGigPage />} />
+            <Route path="/marketplace/:gigId" element={<GigDetails />} />
+            <Route path="/orders" element={<OrdersPage />} />
             <Route path="/courses" element={<CoursePage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/events/create" element={<CreateEventPage />} />
@@ -39,6 +45,7 @@ function App() {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/notifications" element={<NotificationPage />} />
             <Route path="/saved" element={<SavedPage />} />
+            <Route path="/chats" element={<ChatPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Route>

@@ -90,5 +90,5 @@ export const getMe = asyncHandler(async (req, res) => {
   
   if (!user) throw new ApiError(404, "User not found");
 
-  return res.status(200).json(new ApiResponse(200, user, "User fetched"));
+  return res.status(200).json(new ApiResponse(200, user,token, "User fetched successfully", "User fetched"));
 });

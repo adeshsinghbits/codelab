@@ -4,7 +4,8 @@ import {
   fetchEventsThunk,
   rsvpToEventThunk,
   leaveEventThunk,
-  getSingleEventThunk
+  getSingleEventThunk,
+  creatorEventsThunk
 } from "./eventThunk";
 
 const eventSlice = createSlice({
@@ -61,7 +62,21 @@ const eventSlice = createSlice({
       .addCase(getSingleEventThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      .addCase(creatorEventsThunk.fulfilled, (state, action) => {
+        state.events = action.payload;
+      })
+      .addCase(creatorEventsThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addMatcher(
+        (action) => action.type.startsWith("event/") && action.type.endsWith("rejected"),
+        (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        }
+      );
   },
 });
 

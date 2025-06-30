@@ -1,3 +1,4 @@
+// Updated eventSchema with array-based eventAgenda
 import mongoose, { Schema } from "mongoose";
 
 const eventSchema = new Schema(
@@ -20,14 +21,17 @@ const eventSchema = new Schema(
 
     rsvpDeadline: { type: Date },
     price: { type: Number },
-    priceCategory: { type: String  },
+    priceCategory: { type: String },
     tags: { type: [String] },
     image: { type: String },
 
     requirement: { type: String },
-    eventAgenda: { type: String },
-    agendaTitle: { type: String},
-    agendaDescription: { type: String },
+    eventAgenda: [
+      {
+        title: { type: String, required: true },
+        description: { type: String, required: true },
+      }
+    ],
 
     speaker: {
       type: Schema.Types.ObjectId,
@@ -64,4 +68,3 @@ const eventSchema = new Schema(
 );
 
 export const Event = mongoose.model("Event", eventSchema);
-

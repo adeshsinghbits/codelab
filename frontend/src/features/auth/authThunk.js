@@ -9,6 +9,8 @@ export const fetchAuthenticatedUser = createAsyncThunk(
       const response = await axiosInstance.get('/auth/me', {
         withCredentials: true,
       });
+      localStorage.setItem('token', response.data.message);
+      
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Failed to fetch user");

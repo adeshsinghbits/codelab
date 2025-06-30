@@ -9,3 +9,12 @@
 body::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }   
+body {
+  font-family: 'Inter', sans-serif;
+}
+div::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+button {
+  cursor: pointer;
+}

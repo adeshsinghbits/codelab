@@ -12,11 +12,10 @@ import {
 } from "../controllers/event.controller.js";
 import { verifyJWT_username } from "../middlewares/verifyJWT.middleware.js";
 
-
 const router = express.Router();
 
 router.post("/", verifyJWT_username, createEvent);
-router.get("/creatorEvents", verifyJWT_username, getCreatorEvents);
+router.get("/creator/:creatorId", verifyJWT_username, getCreatorEvents);
 router.get("/:eventId", verifyJWT_username, getSingleEvent);
 router.get("/", getAllEvents);
 router.get("/search", searchEvents);

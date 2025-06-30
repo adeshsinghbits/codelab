@@ -31,11 +31,22 @@ app.use(passport.initialize());
 import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
 import evenRouter from "./routes/event.routes.js";
+import notificationRoutes from "./routes/notification.routes.js";
+import gigRoutes from './routes/gigRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+import chatRoutes from './routes/chat.routes.js';
+import messageRoutes from './routes/message.routes.js';
+import requestRouter from "./routes/request.routes.js";
 
 // Using routes
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
 app.use("/events", evenRouter);
-
+app.use("/notifications", notificationRoutes);
+app.use("/gigs", gigRoutes);
+app.use("/orders", orderRoutes);
+app.use("/chat", chatRoutes);
+app.use("/message", messageRoutes);
+app.use("/request", requestRouter);
 
 export { app };
