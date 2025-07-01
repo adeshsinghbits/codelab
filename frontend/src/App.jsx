@@ -1,25 +1,38 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import LandingPage from './pages/LandingPage.jsx';
-import LoginPage from './pages/LoginPage.jsx';
-import SignUpPage from './pages/SignUpPage.jsx';
-import NotFound from './pages/NotFound.jsx';
-import CodeEditorPage from './pages/CodeEditorPage.jsx';
-import MarketplacePage from './pages/MarketplacePage.jsx';
-import CoursePage from './pages/CoursePage.jsx';
-import EventsPage from './pages/EventsPage.jsx';
-import CreateEventPage from './pages/CreateEventPage';
-import DashboardPage from './pages/DashboardPage.jsx';
-import NotificationPage from './pages/NotificationPage.jsx';
-import SavedPage from './pages/SavedPage.jsx';
-import SettingsPage from './pages/SettingsPage.jsx';
-import ProfilePage from './pages/ProfilePage.jsx';
-import ProtectedRoute from './components/ProtectedRoute.jsx';
 import { Toaster } from 'react-hot-toast';
-import EventDetailsPage from './pages/EventDetailsPage.jsx';
-import CreateGigPage from './pages/CreateGigPage.jsx';
-import GigDetails from './pages/GigDetailsPage.jsx';
+
+import LandingPage from './pages/LandingPage.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+
+import LoginPage from './pages/auth/LoginPage.jsx';
+import SignUpPage from './pages/auth/SignUpPage.jsx';
+
+import NotFound from './pages/NotFound.jsx';
+
+import CodeEditorPage from './pages/editor/CodeEditorPage.jsx';
+
+import CoursePage from './pages/CoursePage.jsx';
+
+import EventsPage from './pages/events/EventsPage.jsx';
+import CreateEventPage from './pages/events/CreateEventPage';
+import EventDetailsPage from './pages/events/EventDetailsPage.jsx';
+
+import DashboardPage from './pages/profile/DashboardPage.jsx';
+import ProfilePage from './pages/profile/ProfilePage.jsx';
+
+import NotificationPage from './pages/notification/NotificationPage.jsx';
+
+import SavedPage from './pages/saved/SavedPage.jsx';
+
+import SettingsPage from './pages/settings/SettingsPage.jsx';
+
+import CreateGigPage from './pages/gigs/CreateGigPage.jsx';
+import GigDetails from './pages/gigs/GigDetailsPage.jsx';
+import MarketplacePage from './pages/gigs/MarketplacePage.jsx';
+
 import OrdersPage from './pages/OrdersPage.jsx';
-import ChatPage from './pages/ChatPage.jsx';
+
+import ChatPage from './pages/chat/ChatPage.jsx';
 
 function App() {
   return (

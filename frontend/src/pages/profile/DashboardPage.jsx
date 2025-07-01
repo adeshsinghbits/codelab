@@ -10,8 +10,8 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid,
   PieChart, Pie, Cell, Legend
 } from 'recharts'
-import { fetchgigsByFreelancer } from '../features/gig/gigThunks';
-import { creatorEventsThunk } from '../features/event/eventThunk';
+import { fetchgigsByFreelancer } from '../../features/gig/gigThunks';
+import { creatorEventsThunk } from '../../features/event/eventThunk';
 
 const activityData = [
   { day: 'Mon', solved: 3 },

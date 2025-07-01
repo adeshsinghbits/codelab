@@ -1,7 +1,7 @@
 import { FcGoogle } from "react-icons/fc";
 import { FaSpinner } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { googleLoginThunk } from "../features/auth/authThunk";
+import { googleLoginThunk } from "../../features/auth/authThunk";
 
 function SignUpPage() {
   const dispatch = useDispatch();

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import marketplace from '../assets/marketplace.png';
+import marketplace from '../assets/marketplace.svg';
 import course from '../assets/course.png';
-import editor from '../assets/editor.png';
+import editor from '../assets/editor.svg';
 import developerImg from '../assets/developer.jpg';
+import events from '../assets/events.svg';
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 const faqs = [
@@ -38,7 +39,9 @@ function LandingPage() {
       {/* Navbar */}
       <header className="shadow-md sticky top-0 z-50 backdrop-blur-3xl">
         <nav className="mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
-          <div className="text-xl font-bold bg-green-500 text-white px-4 py-2 rounded">Codelab</div>
+          <Link to="/" className="text-xl font-bold bg-green-500 text-white px-4 py-2 rounded">
+            Codelab
+          </Link>
           <ul className="hidden md:flex space-x-6 font-medium">
             <li><Link to="/marketplace" className="hover:text-green-500 transition duration-300">Marketplace</Link></li>
             <li><Link to="/courses" className="hover:text-green-500 transition duration-300">Courses</Link></li>
@@ -70,23 +73,28 @@ function LandingPage() {
       <section className="bg-gray-100 dark:bg-gray-800 py-16">
         <div className="container mx-auto text-center px-4">
           <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-12">Explore Our Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[{ title: 'Marketplace', text: 'Buy and sell coding tools and services', image: marketplace },
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {[{ title: 'Marketplace', text: 'Codelab’s integrated marketplace empowers creators to monetize their expertise. Whether you are offering custom components, premium UI kits, dev tools, or services like mentorship or code reviews — there’s a place for you here.', image: marketplace },
               { title: 'Courses', text: 'Learn coding from experts', image: course },
-              { title: 'Editor', text: 'Code in the browser', image: editor }
+              { title: 'Editor', text: 'No setup, no installs — just code.Codelab’s editor delivers a fully-featured IDE experience in the browser Perfect for workshops, quick prototyping, or full-stack lab creation. Whether you are teaching or building, the editor adapts to your workflow. ', image: editor },
+              { title: 'Events', text: 'Participants can RSVP, join live sessions directly in-browser, and access event materials — all in one place. Events are synced with user calendars and feature reminders, recordings, and post-event summaries.', image: events },
             ].map((card, i) => (
               <div key={i} className="relative group transform transition duration-500 hover:-translate-y-2 hover:scale-105">
                 <div className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md group-hover:shadow-2xl transition-shadow duration-300">
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{card.title}</h3>
                   <p className="text-gray-600 dark:text-gray-300">{card.text}</p>
-                  <img src={card.image} alt={card.title} className="mt-4" />
+                  <img
+                    src={card.image}
+                    alt={card.title}
+                    className="mt-4 group-hover:drop-shadow-lg group-hover:drop-shadow-black"
+                  />
                 </div>
               </div>
             ))}
           </div>
         </div>
       </section>
-
+      
       {/* Content Section */}
       <section className="bg-white dark:bg-gray-900 py-20">
         <div className="container mx-auto px-4 grid md:grid-cols-2 gap-10 items-center">
@@ -121,16 +129,49 @@ function LandingPage() {
       {/* Why Codelab */}
       <section className="bg-white dark:bg-gray-900 py-16">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-10">Why Choose <span className="text-green-500">Codelab</span>?</h2>
+          <h2 className="text-3xl sticky top-20 font-bold text-gray-900 dark:text-white mb-10">Why Choose <span className="text-green-500">Codelab</span>?</h2>
           <div className="flex flex-col items-center gap-8">
             {[
-              { title: 'Built for Speed', desc: 'Lightning-fast loading and execution.' },
-              { title: 'Developer Centric', desc: 'Designed by devs for devs.' },
-              { title: 'Trusted by Community', desc: 'Thousands of creators use Codelab.' },
+              { title: 'Built for Speed', desc: 'Experience blazing-fast load times and near-instant code execution. Codelab is optimized at every level — from its lightweight frontend to its scalable backend architecture — ensuring you never have to wait to build, test, or deploy.' },
+              { title: 'Developer Centric', desc: 'Created by developers, for developers. Every feature in Codelab is purpose-built to reduce friction and maximize productivity — from intuitive UI/UX to powerful tools that align with real-world dev workflows.' },
+              { title: 'Trusted by Community', desc: 'Join a thriving community of thousands of developers and educators who rely on Codelab daily. Whether you are building solo or collaborating across teams, Codelab has become the go-to platform for modern coding labs.' },
+              {title:'Seamless Collaboration', desc:'Collaborate effortlessly with your team. Whether you&aspos;re working on a project with a single person or a team of 10, Codelab ensures everyone is aligned and productive.'},
+              {title:' Secure & Reliable', desc:'Backed by end-to-end encryption, auto-save, and cloud backups, your code and intellectual property are always protected. Codelab ensures high uptime and robust security compliance so you can focus on building.'}
             ].map((item, i) => (
-              <div key={i} className="p-6 w-96 sticky top-30  bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md transform hover:-translate-y-1 hover:shadow-2xl transition duration-300">
+              <div key={i} className="p-6 w-96 sticky top-40  bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md transform border border-gray-200 dark:border-gray-700 hover:-translate-y-1 hover:shadow-2xl transition duration-300">
                 <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">{item.title}</h3>
                 <p className="text-gray-600 dark:text-gray-400">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* Testimonials */}
+      <section className="bg-white dark:bg-gray-900 py-20">
+        <div className="max-w-5xl mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-10">What Developers Say</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Aarav Mehta",
+                role: "Full Stack Developer",
+                quote: "Codelab streamlined my workflow. From projects to courses, it’s now my go-to dev hub.",
+              },
+              {
+                name: "Sneha Kapoor",
+                role: "Frontend Engineer",
+                quote: "The editor is clean, intuitive, and just works. Plus, I love the gig marketplace!",
+              },
+              {
+                name: "Rahul Sharma",
+                role: "CS Student",
+                quote: "I landed my first freelance gig through Codelab! The community is truly empowering.",
+              },
+            ].map((t, i) => (
+              <div key={i} className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                <p className="text-gray-700 dark:text-gray-300 italic mb-4">“{t.quote}”</p>
+                <h4 className="font-semibold text-gray-900 dark:text-white">{t.name}</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{t.role}</p>
               </div>
             ))}
           </div>

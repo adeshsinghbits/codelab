@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { logoutThunk } from "../features/auth/authThunk";
-import { saveUserThunk, uploadPicThunk } from "../features/user/userThunk";
+import { logoutThunk } from "../../features/auth/authThunk.js";
+import { saveUserThunk, uploadPicThunk } from "../../features/user/userThunk.js";
 import toast from "react-hot-toast";
 import {
   FaEnvelope,
@@ -14,8 +14,8 @@ import {
   FaEdit,
   FaSave,
 } from "react-icons/fa";
-import { skillSuggestions } from "../utils/Skills";
-import SkillInput from "../components/SkillInput.jsx";
+import { skillSuggestions } from "../../utils/Skills.js";
+import SkillInput from "./SkillInput.jsx";
 
 function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);

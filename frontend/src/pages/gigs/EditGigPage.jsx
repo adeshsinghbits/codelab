@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGigById, updateGig } from '../features/gig/gigThunks';
+import { fetchGigById, updateGig } from '../../features/gig/gigThunks';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const EditGigPage = () => {

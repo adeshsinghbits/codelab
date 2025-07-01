@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchGigById, toggleFavoriteGig } from '../features/gig/gigThunks';
-import { createRequest } from '../features/request/requestThunk'; 
+import { fetchGigById, toggleFavoriteGig } from '../../features/gig/gigThunks';
+import { createRequest } from '../../features/request/requestThunk'; 
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { createOrder } from '../features/order/orderThunks';
+import { createOrder } from '../../features/order/orderThunks';
 import {
   FaStar, FaHeart, FaEye, FaClipboardList, FaCheck, FaBolt, FaClock
 } from 'react-icons/fa';

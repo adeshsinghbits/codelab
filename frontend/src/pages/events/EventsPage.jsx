@@ -7,12 +7,12 @@ import { FaFilter, FaHashtag } from "react-icons/fa";
 import { CiLocationOn } from "react-icons/ci";
 import { IoPricetagOutline } from "react-icons/io5";
 
-import EventCard from '../components/EventCard';
+import EventCard from './EventCard';
 import {
   fetchEventsThunk,
   rsvpToEventThunk,
   leaveEventThunk
-} from '../features/event/eventThunk';
+} from '../../features/event/eventThunk';
 
 function EventsPage() {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ function EventsPage() {
   return (
     <div className="w-full lg:ml-80 mt-14">
       {/* Header */}
-      <div className="flex flex-col md:flex-row px-4 justify-between md:mt-0 bg-white border-b gap-4 p-4">
+      <div className="flex flex-col md:flex-row px-4 justify-between md:mt-0 bg-white border-b border-b-gray-200 gap-4 p-4">
         <div className="flex items-center gap-4 text-2xl font-bold text-green-700">
           <MdEventNote className="text-4xl p-2 bg-green-100 rounded-full" />
           <div>

@@ -1,4 +1,3 @@
-// src/components/chat/ChatBox.jsx
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMessages, sendMessage } from "../../features/chat/chatThunks";
@@ -16,44 +15,57 @@ const ChatBox = () => {
   const [message, setMessage] = useState("");
   const messageEndRef = useRef(null);
 
+  // ✅ Handle incoming messages & notifications
   useEffect(() => {
-  if (Notification.permission !== "granted") {
-    Notification.requestPermission();
-  }
+    if (!("Notification" in window)) {
+      console.warn("❌ Browser does not support notifications.");
+    } else if (Notification.permission === "default") {
+      Notification.requestPermission();
+    }
 
-  socket.on("connect", () => console.log("✅ Socket connected:", socket.id));
-  
-  socket.on("message recieved", (msg) => {
-    if (msg.chatId._id === selectedChat?._id && msg.sender._id !== user._id) {
-      dispatch(addMessage(msg))
-      
-      if (document.hasFocus()) {
-        console.log("🟡 Tab is focused — Notification suppressed");
-        return;
+    socket.on("connect", () => console.log("✅ Socket connected:", socket.id));
+
+    socket.on("message recieved", (msg) => {
+      const isSameChat = msg.chatId._id === selectedChat?._id;
+      const isNotSender = msg.sender._id !== user._id;
+
+      // ✅ Add to messages only if relevant
+      if (isSameChat && isNotSender) {
+        dispatch(addMessage(msg));
       }
-      if (!document.hasFocus()) {
-        const notify = () => new Notification(`New message from ${msg.sender.name}`, {
-          body: msg.content,
-          icon: msg.sender.picture || "/default-icon.png",
-        });
-        
-        if (Notification.permission === "granted") {
-          notify();
-        } else if (Notification.permission !== "denied") {
-          Notification.requestPermission().then(permission => {
-            if (permission === "granted") {
-              notify();
-            }
+
+      // ✅ Trigger notification if tab not focused
+      if (isNotSender && !document.hasFocus()) {
+        const title = `📨 Message from ${msg.sender.name || "Someone"}`;
+        const body = msg.content || "New message received";
+
+        const showNotification = () => {
+          new Notification(title, {
+            body,
+            icon: msg.sender.picture || "/default-icon.png",
           });
+
+          // Optional: Play sound
+          const audio = new Audio("/notification.mp3");
+          audio.play().catch(() => {});
+        };
+
+        if (Notification.permission === "granted") {
+          showNotification();
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then((perm) => {
+            if (perm === "granted") showNotification();
+          });
+        } else {
+          console.warn("❌ Notification permission denied.");
         }
       }
-    }
-  });
+    });
 
-  return () => socket.off("message recieved");
-}, [dispatch, selectedChat, user]);
+    return () => socket.off("message recieved");
+  }, [dispatch, selectedChat, user]);
 
-
+  // ✅ Join selected chat room and fetch messages
   useEffect(() => {
     if (selectedChat) {
       dispatch(fetchMessages(selectedChat._id));
@@ -61,6 +73,7 @@ const ChatBox = () => {
     }
   }, [selectedChat, dispatch]);
 
+  // ✅ Auto-scroll to latest message
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);

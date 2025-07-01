@@ -23,8 +23,8 @@ import {
   MdLink,
   MdOutlineSave
 } from "react-icons/md";
-import { createEventThunk } from '../features/event/eventThunk';
-import { uploadPicThunk } from "../features/user/userThunk";
+import { createEventThunk } from '../../features/event/eventThunk';
+import { uploadPicThunk } from "../../features/user/userThunk";
 
 function CreateEventPage() {
   const dispatch = useDispatch();

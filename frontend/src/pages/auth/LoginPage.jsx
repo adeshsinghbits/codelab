@@ -1,6 +1,6 @@
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from 'react-redux';
-import { googleLoginThunk } from '../features/auth/authThunk';
+import { googleLoginThunk } from '../../features/auth/authThunk';
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { motion } from "framer-motion";
 

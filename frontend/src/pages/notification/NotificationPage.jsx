@@ -4,15 +4,16 @@ import {
   fetchNotificationsThunk,
   markNotificationAsReadThunk,
   deleteNotificationThunk,
-} from '../features/notification/notificationThunk';
+} from '../../features/notification/notificationThunk';
 import {
   fetchRequests,
   acceptRequest,
   rejectRequest,
-} from '../features/request/requestThunk';
+} from '../../features/request/requestThunk';
 import {
   IoIosNotificationsOutline
 } from "react-icons/io";
+import { MdDeleteOutline } from "react-icons/md";
 import {
   MdOutlineRefresh
 } from "react-icons/md";
@@ -164,7 +165,7 @@ function NotificationPage() {
                       onClick={() => dispatch(deleteNotificationThunk(note._id))}
                       className="text-sm text-red-500 hover:text-red-700"
                     >
-                      Delete
+                      <MdDeleteOutline size={20} />
                     </button>
                   </li>
                 ))}

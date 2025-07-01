@@ -1,5 +1,5 @@
-import ChatList from "../components/Chat/ChatList";
-import ChatBox from "../components/Chat/ChatBox";
+import ChatList from "./ChatList";
+import ChatBox from "./ChatBox";
 
 const ChatPage = () => {
   return (

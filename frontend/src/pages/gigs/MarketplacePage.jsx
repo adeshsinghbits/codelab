@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import "../App.css"
+import "../../App.css"
 import { MdLocalGroceryStore,MdOutlineCategory } from "react-icons/md";
 import { FaArrowTrendUp } from "react-icons/fa6";
 import { IoPricetagOutline } from "react-icons/io5";
 import { FaFilter, FaCodeBranch } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-import GigCard from '../components/GigCard';
-import { fetchAllGigs } from '../features/gig/gigThunks';
+import GigCard from './GigCard';
+import { fetchAllGigs } from '../../features/gig/gigThunks';
 
 function MarketplacePage() {
   const dispatch = useDispatch();
@@ -19,9 +19,8 @@ function MarketplacePage() {
   return (
     <div className="w-full mt-10 md:ml-80 px-2 md:px-4">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between bg-white border-b gap-4 p-4 shadow-sm">
+      <div className="flex flex-col md:flex-row justify-between bg-white border-b border-b-gray-200 gap-4 p-4 shadow-sm">
         <div className="flex items-start md:items-center gap-4 text-3xl font-bold text-emerald-500">
-          <MdLocalGroceryStore className="text-4xl rounded p-2 w-16 h-16" />
           <div>
             <p>Marketplace</p>
             <span className="block text-sm font-semibold text-gray-400">

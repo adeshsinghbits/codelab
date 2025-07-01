@@ -11,8 +11,8 @@ import {
   rsvpToEventThunk,
   leaveEventThunk,
   getSingleEventThunk,
-} from "../features/event/eventThunk";
-import { fetchNotificationsThunk } from "../features/notification/notificationThunk";
+} from "../../features/event/eventThunk";
+import { fetchNotificationsThunk } from "../../features/notification/notificationThunk";
 
 function EventDetailsPage() {
   const { eventId } = useParams();

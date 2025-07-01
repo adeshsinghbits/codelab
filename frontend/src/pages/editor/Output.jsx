@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { executeCode } from "../../Api/api";
+import { executeCode } from "../../utils/axiosInstance";
 
 const Output = ({ editorRef, language }) => {
   const [output, setOutput] = useState(null);
