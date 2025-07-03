@@ -67,7 +67,7 @@ function EventCard({
           <span className="text-green-700 font-semibold">{price}</span>
           <Link 
             to={`/events/${id}`}
-            className="bg-green-600 hover:bg-green-700 text-white text-sm px-4 py-2 rounded-lg font-semibold cursor-pointer transition duration-200">
+            className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-sm px-4 py-2 rounded-lg font-semibold cursor-pointer transition duration-200">
             View Details
           </Link>
         </div>

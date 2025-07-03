@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import {
   MdLocalGroceryStore, MdDashboardCustomize, MdEventNote,
 } from "react-icons/md";
-import { IoBook, IoChatbox } from "react-icons/io5";
+import { IoChatbox, IoLibrary } from "react-icons/io5";
 import { FaLaptopCode, FaBookmark, FaUser, FaBars } from "react-icons/fa";
 import { IoIosNotifications, IoIosSettings } from "react-icons/io";
 import { useSelector } from 'react-redux';
@@ -58,7 +58,7 @@ function SideBar() {
           <h3 className="text-sm text-slate-400 mt-4 font-semibold">EXPLORE</h3>
           <ul className="mt-4">
             <li className="mt-2"><NavLink to="/marketplace" className={linkClasses}><MdLocalGroceryStore /> Marketplace</NavLink></li>
-            <li className="mt-2"><NavLink to="/courses" className={linkClasses}><IoBook /> Courses</NavLink></li>
+            <li className="mt-2"><NavLink to="/library" className={linkClasses}><IoLibrary /> Library</NavLink></li>
             <li className="mt-2"><NavLink to="/events" className={linkClasses}><MdEventNote /> Events</NavLink></li>
             <li className="mt-2"><NavLink to="/editor" className={linkClasses}><FaLaptopCode /> Editor</NavLink></li>
           </ul>

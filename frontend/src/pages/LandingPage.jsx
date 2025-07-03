@@ -44,7 +44,7 @@ function LandingPage() {
           </Link>
           <ul className="hidden md:flex space-x-6 font-medium">
             <li><Link to="/marketplace" className="hover:text-green-500 transition duration-300">Marketplace</Link></li>
-            <li><Link to="/courses" className="hover:text-green-500 transition duration-300">Courses</Link></li>
+            <li><Link to="/library" className="hover:text-green-500 transition duration-300">Library</Link></li>
             <li><Link to="/editor" className="hover:text-green-500 transition duration-300">Editor</Link></li>
           </ul>
           <div className="hidden md:flex items-center space-x-4">

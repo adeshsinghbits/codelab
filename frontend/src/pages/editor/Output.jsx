@@ -9,16 +9,40 @@ const Output = ({ editorRef, language }) => {
   const runCode = async () => {
     const sourceCode = editorRef.current.getValue();
     if (!sourceCode) return;
+
     try {
       setIsLoading(true);
+
+      // Handle HTML Preview
+      if (language === "html") {
+        const blob = new Blob([sourceCode], { type: "text/html" });
+        const url = URL.createObjectURL(blob);
+        setOutput(<iframe src={url} className="w-full h-[75vh] border rounded bg-white" />);
+        return;
+      }
+
+      // Handle other code execution
       const { run: result } = await executeCode(language, sourceCode);
-      setOutput(result.output.split("\n"));
+      setOutput(result.output.split("\n")); // array of strings
       result.stderr ? setIsError(true) : setIsError(false);
+
     } catch (error) {
       alert(error.message || "Unable to run code");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const renderOutput = () => {
+    if (!output) return 'Click "Run Code" to see the output here';
+
+    // Check if it's a JSX element (like iframe)
+    if (typeof output === "object" && !Array.isArray(output)) {
+      return output;
+    }
+
+    // Else treat as string array
+    return output.map((line, i) => <p key={i}>{line}</p>);
   };
 
   return (
@@ -38,9 +62,7 @@ const Output = ({ editorRef, language }) => {
           isError ? "text-red-400 border-red-500" : "text-white border-[#333]"
         }`}
       >
-        {output
-          ? output.map((line, i) => <p key={i}>{line}</p>)
-          : 'Click "Run Code" to see the output here'}
+        {renderOutput()}
       </div>
     </div>
   );

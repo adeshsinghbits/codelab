@@ -8,7 +8,7 @@ import gigReducer from "../features/gig/gigSlice";
 import orderReducer from "../features/order/orderSlice";
 import chatReducer from "../features/chat/chatSlice";
 import requestReducer from "../features/request/requestSlice";
-
+import resourceReducer from "../features/resource/resourceSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -19,5 +19,6 @@ export const store = configureStore({
     order: orderReducer,
     chat: chatReducer,
     request: requestReducer,
+    resource: resourceReducer,
   },
 });

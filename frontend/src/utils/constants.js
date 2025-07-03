@@ -5,6 +5,8 @@ export const LANGUAGE_VERSIONS = {
   java: "15.0.2",
   csharp: "6.12.0",
   php: "8.2.3",
+  html: "5",
+  css: "3",
 };
 
 export const CODE_SNIPPETS = {
@@ -15,4 +17,13 @@ export const CODE_SNIPPETS = {
   csharp:
     'using System;\n\nnamespace HelloWorld\n{\n\tclass Hello { \n\t\tstatic void Main(string[] args) {\n\t\t\tConsole.WriteLine("Hello World in C#");\n\t\t}\n\t}\n}\n',
   php: "<?php\n\n$name = 'Alex';\necho $name;\n",
+   html: `<!DOCTYPE html>
+<html>
+  <head><title>Hello</title></head>
+  <body><h1>Hello, HTML!</h1></body>
+</html>`,
+  css: `body {
+  background-color: #f0f0f0;
+  color: #333;
+}`,
 };

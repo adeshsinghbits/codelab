@@ -37,7 +37,7 @@ import orderRoutes from './routes/orderRoutes.js';
 import chatRoutes from './routes/chat.routes.js';
 import messageRoutes from './routes/message.routes.js';
 import requestRouter from "./routes/request.routes.js";
-
+import resourceRouter from "./routes/resource.routes.js";
 // Using routes
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
@@ -48,5 +48,6 @@ app.use("/orders", orderRoutes);
 app.use("/chat", chatRoutes);
 app.use("/message", messageRoutes);
 app.use("/request", requestRouter);
+app.use("/resource", resourceRouter);
 
 export { app };

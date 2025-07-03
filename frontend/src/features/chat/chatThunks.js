@@ -1,6 +1,6 @@
 // src/features/chat/chatThunks.js
 import axiosInstance from "../../utils/axiosInstance";
-import { setChats, setMessages, setChatLoading, addMessage } from "./chatSlice";
+import { setChats, setMessages, setChatLoading, addMessage, setConnections } from "./chatSlice";
 
 export const fetchChats = () => async (dispatch) => {
   try {
@@ -35,5 +35,24 @@ export const sendMessage = (messageData, socket) => async (dispatch) => {
     }
   } catch (err) {
     console.error("Error sending message:", err);
+  }
+};
+
+export const fetchConnections = (currentUserId) => async (dispatch) => {
+  try {
+    dispatch(setChatLoading(true));
+    const { data } = await axiosInstance.get("/chat"); // Already returns all chats
+    const chats = data.data;
+
+    // Extract connections
+    const connections = chats
+      .map(chat => chat.users.find(user => user._id !== currentUserId))
+      .filter(Boolean); // remove undefined
+
+    dispatch(setConnections(connections)); // 👇 you'll add this in slice
+  } catch (err) {
+    console.error("Error fetching connections:", err);
+  } finally {
+    dispatch(setChatLoading(false));
   }
 };

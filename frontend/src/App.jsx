@@ -11,8 +11,6 @@ import NotFound from './pages/NotFound.jsx';
 
 import CodeEditorPage from './pages/editor/CodeEditorPage.jsx';
 
-import CoursePage from './pages/CoursePage.jsx';
-
 import EventsPage from './pages/events/EventsPage.jsx';
 import CreateEventPage from './pages/events/CreateEventPage';
 import EventDetailsPage from './pages/events/EventDetailsPage.jsx';
@@ -33,6 +31,9 @@ import MarketplacePage from './pages/gigs/MarketplacePage.jsx';
 import OrdersPage from './pages/OrdersPage.jsx';
 
 import ChatPage from './pages/chat/ChatPage.jsx';
+import ResourcePage from './pages/Resources/ResourcePage.jsx';
+import CreateResource from './pages/Resources/CreateResource.jsx';
+import ResourceDetails from './pages/Resources/ResourceDetails.jsx';
 
 function App() {
   return (
@@ -51,7 +52,6 @@ function App() {
             <Route path="/marketplace/create" element={<CreateGigPage />} />
             <Route path="/marketplace/:gigId" element={<GigDetails />} />
             <Route path="/orders" element={<OrdersPage />} />
-            <Route path="/courses" element={<CoursePage />} />
             <Route path="/events" element={<EventsPage />} />
             <Route path="/events/create" element={<CreateEventPage />} />
             <Route path="/events/:eventId" element={<EventDetailsPage />} />
@@ -61,6 +61,9 @@ function App() {
             <Route path="/chats" element={<ChatPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/library" element={<ResourcePage />} />
+            <Route path="/library/new" element={<CreateResource />} />
+        <Route path="/library/:id" element={<ResourceDetails />} />
           </Route>
 
         {/* Catch-All Route */}

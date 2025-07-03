@@ -114,7 +114,14 @@ function CreateEventPage() {
         <div className="bg-white p-6 rounded-xl shadow mb-8">
           <h3 className="text-xl font-semibold mb-4">Event Information</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input id="title" value={formData.title} onChange={handleChange} required placeholder="Enter event title" className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
+            <input 
+              type="text" 
+              id="title" 
+              value={formData.title} 
+              onChange={handleChange} 
+              required 
+              placeholder="Enter event title" 
+              className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
             <select id="category" value={formData.category} onChange={handleChange} required className="w-full border border-green-500 bg-emerald-100 p-2 rounded">
               {["", "Conference", "Workshop", "Networking", "Seminar", "Webinar", "Hackathon", "Other"].map(cat => (
                 <option key={cat} value={cat.toLowerCase()}>{cat || "Select Category"}</option>
@@ -129,7 +136,13 @@ function CreateEventPage() {
               <option value="hybrid">Hybrid</option>
             </select>
 
-            <input type="text" id="meetingLink" value={formData.meetingLink} onChange={handleChange} placeholder="Enter meeting link" className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
+            <input 
+              type="text" 
+              id="meetingLink" 
+              value={formData.meetingLink} 
+              onChange={handleChange} 
+              placeholder="Enter meeting link" 
+              className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
           </div>
         </div>
 
@@ -137,12 +150,46 @@ function CreateEventPage() {
         <div className="bg-white p-6 rounded-xl shadow mb-8">
           <h3 className="text-xl font-semibold mb-4">📅 Date & Time</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input type="date" id="startDate" value={formData.startDate} onChange={handleChange} required className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
-            <input type="time" id="startTime" value={formData.startTime} onChange={handleChange} required className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
-            <input type="date" id="endDate" value={formData.endDate} onChange={handleChange} required className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
-            <input type="time" id="endTime" value={formData.endTime} onChange={handleChange} required className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
-            <input type="date" id="rsvpDeadline" value={formData.rsvpDeadline} onChange={handleChange} className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
-            <input type="number" id="maxAttendees" value={formData.maxAttendees} onChange={handleChange} required className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
+            <input 
+              type="date" 
+              id="startDate" 
+              value={formData.startDate} 
+              onChange={handleChange} 
+              required 
+              className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
+            <input 
+              type="time" 
+              id="startTime" 
+              value={formData.startTime} 
+              onChange={handleChange} 
+              required 
+              className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
+            <input 
+              type="date" 
+              id="endDate" 
+              value={formData.endDate} 
+              onChange={handleChange} 
+              required className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
+            <input 
+              type="time" 
+              id="endTime" 
+              value={formData.endTime} 
+              onChange={handleChange} 
+              required 
+              className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
+            <input 
+              type="date" 
+              id="rsvpDeadline" 
+              value={formData.rsvpDeadline} 
+              onChange={handleChange} 
+              className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
+            <input 
+              type="number" 
+              id="maxAttendees" 
+              value={formData.maxAttendees} 
+              onChange={handleChange} 
+              required 
+              className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
           </div>
         </div>
 
@@ -150,18 +197,37 @@ function CreateEventPage() {
         <div className="bg-white p-6 rounded-xl shadow mb-8">
           <h3 className="text-xl font-semibold mb-4">💰 Pricing & Registration</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input type="number" id="price" value={formData.price} onChange={handleChange} className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
-            <select id="priceCategory" value={formData.priceCategory} onChange={handleChange} className="w-full border border-green-500 bg-emerald-100 p-2 rounded">
+            <input 
+              type="number" 
+              id="price" 
+              value={formData.price} 
+              onChange={handleChange} 
+              className="w-full border border-green-500 bg-emerald-100 p-2 rounded" />
+            <select 
+              id="priceCategory" 
+              value={formData.priceCategory} 
+              onChange={handleChange} 
+              className="w-full border border-green-500 bg-emerald-100 p-2 rounded">
               {["USD", "EUR", "GBP", "INR"].map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
-            <input id="tags" value={formData.tags} onChange={handleChange} className="md:col-span-2 w-full border border-green-500 bg-emerald-100 p-2 rounded" placeholder="e.g. tech, startup, coding" />
+            <input 
+              type="text" id="tags" 
+              value={formData.tags} 
+              onChange={handleChange} 
+              className="md:col-span-2 w-full border border-green-500 bg-emerald-100 p-2 rounded" placeholder="e.g. tech, startup, coding" />
             <div className="md:col-span-2">
               <label htmlFor="image">Event Image (1 only)</label>
               {!imagePreview ? (
                 <div className="relative border-2 border-dashed border-emerald-500 p-6 rounded-xl cursor-pointer hover:border-emerald-600 transition-all duration-300">
-                  <input type="file" id="image" accept="image/*" required onChange={handleImageChange} className="absolute inset-0 opacity-0 cursor-pointer" />
+                  <input 
+                    type="file" 
+                    id="image" 
+                    accept="image/*" 
+                    required 
+                    onChange={handleImageChange} 
+                    className="absolute inset-0 opacity-0 cursor-pointer" />
                   <div className="flex flex-col items-center justify-center text-gray-500">
                     <FiUploadCloud className="text-4xl mb-2" />
                     <p className="text-sm">Click to upload or drag & drop</p>
@@ -191,9 +257,26 @@ function CreateEventPage() {
         <div className="bg-white p-6 rounded-xl shadow mb-8">
           <h3 className="text-xl font-semibold mb-4">📝 Additional Content</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input type="text" id="requirement" value={formData.requirement} onChange={handleChange} className="w-full border border-green-500 bg-emerald-100 p-2 rounded" placeholder="Any prerequisites or tools" />
-            <input type="text" id="agendaTitle" value={formData.agendaTitle} onChange={handleChange} placeholder="Agenda Title" className="border border-green-500 bg-emerald-100 p-2 rounded" />
-            <input type="text" id="agendaDescription" value={formData.agendaDescription} onChange={handleChange} placeholder="Agenda Description" className="border border-green-500 bg-emerald-100 p-2 rounded" />
+            <input 
+              type="text" 
+              id="requirement" 
+              value={formData.requirement} 
+              onChange={handleChange} 
+              className="w-full border border-green-500 bg-emerald-100 p-2 rounded" placeholder="Any prerequisites or tools" />
+            <input 
+              type="text" 
+              id="agendaTitle" 
+              value={formData.agendaTitle} 
+              onChange={handleChange} 
+              placeholder="Agenda Title" 
+              className="border border-green-500 bg-emerald-100 p-2 rounded" />
+            <input 
+              type="text" 
+              id="agendaDescription" 
+              value={formData.agendaDescription} 
+              onChange={handleChange} 
+              placeholder="Agenda Description" 
+              className="border border-green-500 bg-emerald-100 p-2 rounded" />
           </div>
         </div>
 
