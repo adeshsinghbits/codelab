@@ -29,6 +29,7 @@
     "react-router-dom": "^7.6.2",
     "react-syntax-highlighter": "^15.6.1",
     "recharts": "^2.15.3",
+    "rehype-highlight": "^7.0.2",
     "socket.io-client": "^4.8.1",
     "tailwindcss": "^4.1.10"
   },

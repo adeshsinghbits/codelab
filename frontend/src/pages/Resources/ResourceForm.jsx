@@ -1,10 +1,12 @@
 import { useState, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { FiX } from "react-icons/fi";
-import { FaCloudUploadAlt, FaRegSave} from "react-icons/fa";
+import { FaCloudUploadAlt, FaRegSave } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { useDispatch } from "react-redux";
 import { uploadFileThunk } from "../../features/resource/resourceThunks";
+import MonacoEditor from "@monaco-editor/react";
+import rehypeHighlight from "rehype-highlight";
 
 const ResourceForm = ({ initialData = {}, onSubmit }) => {
   const [form, setForm] = useState({
@@ -67,11 +69,16 @@ const ResourceForm = ({ initialData = {}, onSubmit }) => {
       onSubmit={handleSubmit}
       className="max-w-4xl mx-auto p-8 bg-white rounded-3xl shadow-md space-y-8 border border-gray-200"
     >
-      <h1 className="text-3xl font-semibold text-gray-500 mb-4">Craft a <span className="text-gray-800">New Capsule</span></h1>
+      <h1 className="text-3xl font-semibold text-gray-500 mb-4">
+        Craft a <span className="text-gray-800">New Capsule</span>
+      </h1>
       <p>“Capsule” implies a bundle of value — works well for articles, code, and more.</p>
+
       {/* Title */}
       <div>
-        <label htmlFor="title" className="text-sm font-semibold text-gray-700">Title *</label>
+        <label htmlFor="title" className="text-sm font-semibold text-gray-700">
+          Title *
+        </label>
         <input
           id="title"
           name="title"
@@ -84,7 +91,9 @@ const ResourceForm = ({ initialData = {}, onSubmit }) => {
 
       {/* Description */}
       <div>
-        <label htmlFor="description" className="text-sm font-semibold text-gray-700">Description</label>
+        <label htmlFor="description" className="text-sm font-semibold text-gray-700">
+          Description
+        </label>
         <textarea
           id="description"
           name="description"
@@ -97,7 +106,9 @@ const ResourceForm = ({ initialData = {}, onSubmit }) => {
 
       {/* Type */}
       <div>
-        <label htmlFor="type" className="text-sm font-semibold text-gray-700">Type *</label>
+        <label htmlFor="type" className="text-sm font-semibold text-gray-700">
+          Type *
+        </label>
         <select
           id="type"
           name="type"
@@ -112,34 +123,55 @@ const ResourceForm = ({ initialData = {}, onSubmit }) => {
         </select>
       </div>
 
-      {/* Content */}
-      {["article", "code"].includes(form.type) ? (
-        <>
+      {/* Content Section */}
+      {form.type === "article" ? (
+        <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="content" className="text-sm font-semibold text-gray-700">
-              {form.type === "article" ? "📝 Markdown Content" : "💻 Code Snippet"}
+            <label htmlFor="content" className="text-sm font-semibold text-gray-700 block mb-1">
+              📝 Markdown Editor
             </label>
             <textarea
               id="content"
               name="content"
               value={form.content}
               onChange={handleChange}
-              rows={8}
-              className="mt-1 w-full bg-green-100 border border-green-400 rounded-xl px-4 py-2 focus:outline-none"
+              rows={16}
+              className="w-full bg-green-100 border border-green-400 rounded-xl px-4 py-2 focus:outline-none resize-none h-full"
             />
           </div>
-          <div className="bg-green-100 p-4 border border-green-400 rounded-xl mt-4">
-            <p className="text-sm  font-semibold text-gray-700 mb-2">📄 Preview</p>
-            <div className="prose prose-sm max-w-none">
-              <ReactMarkdown>{form.content}</ReactMarkdown>
-            </div>
+          <div className="bg-white border border-green-300 rounded-xl p-4 overflow-auto prose prose-sm prose-green max-w-none">
+            <p className="text-sm font-semibold text-gray-700 mb-2">📄 Live Preview</p>
+            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+              {form.content}
+            </ReactMarkdown>
           </div>
-        </>
+        </div>
+      ) : form.type === "code" ? (
+        <div>
+          <label htmlFor="content" className="text-sm font-semibold text-gray-700 mb-1 block">
+            💻 Code Snippet
+          </label>
+          <div className="border border-green-400 rounded-xl overflow-hidden">
+            <MonacoEditor
+              height="400px"
+              defaultLanguage="javascript"
+              theme="vs-dark"
+              value={form.content}
+              onChange={(value) => setForm((prev) => ({ ...prev, content: value || "" }))}
+              options={{
+                fontSize: 14,
+                minimap: { enabled: false },
+                scrollBeyondLastLine: false,
+                wordWrap: "on",
+              }}
+            />
+          </div>
+        </div>
       ) : (
         <div
           onDrop={handleDrop}
           onDragOver={handleDragOver}
-          className={`border-2 border-dashed p-6 rounded-xl text-center bg-green-100  transition-all ${
+          className={`border-2 border-dashed p-6 rounded-xl text-center transition-all ${
             uploading ? "border-green-400 bg-blue-50" : "border-gray-300 bg-gray-100"
           }`}
         >
@@ -152,7 +184,7 @@ const ResourceForm = ({ initialData = {}, onSubmit }) => {
           />
           <div
             onClick={() => fileInputRef.current.click()}
-            className="cursor-pointer flex flex-col items-center justify-center  text-gray-600"
+            className="cursor-pointer flex flex-col items-center justify-center text-gray-600"
           >
             <FaCloudUploadAlt size={40} className="text-green-500 mb-2" />
             <p className="font-medium">Click to upload or drag & drop</p>
@@ -172,7 +204,7 @@ const ResourceForm = ({ initialData = {}, onSubmit }) => {
                 <video
                   src={form.content}
                   controls
-                  className=" w-full max-h-64 rounded border-none"
+                  className="w-full max-h-64 rounded border-none"
                 />
               )}
             </div>
@@ -182,7 +214,9 @@ const ResourceForm = ({ initialData = {}, onSubmit }) => {
 
       {/* Tags */}
       <div>
-        <label htmlFor="tags" className="text-sm font-semibold text-gray-700">Tags</label>
+        <label htmlFor="tags" className="text-sm font-semibold text-gray-700">
+          Tags
+        </label>
         <div className="flex gap-2 mt-2">
           <input
             id="tags"
@@ -218,13 +252,16 @@ const ResourceForm = ({ initialData = {}, onSubmit }) => {
 
       {/* Submit */}
       <div className="pt-4 flex justify-end gap-4">
-        <button type="button" className="border border-green-300 text-green-700 px-5 py-2 rounded-lg hover:bg-green-50">
+        <button
+          type="button"
+          className="border border-green-300 text-green-700 px-5 py-2 rounded-lg hover:bg-green-50"
+        >
           <FaRegSave className="inline mr-1" />
           Save as Draft
         </button>
         <button
           type="submit"
-          className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-3 rounded-xl  transition-all flex items-center gap-2 text-base"
+          className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-6 py-3 rounded-xl transition-all flex items-center gap-2 text-base"
         >
           <FaCloudUploadAlt /> Publish Resource
         </button>
